@@ -9,11 +9,12 @@ import './index.css';
 import { Provider } from 'react-redux';
 import store from './store'
 import App from './App';
+import Header from './components/products/Header';
 ReactDOM.render(
 
 <Provider store={store}>
   <BrowserRouter>
-
+  <Header/>
   <Routes>
     <Route path='/' element={<App/>}/>
     <Route path='payment' element={<Payment/>}/>

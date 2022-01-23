@@ -18,7 +18,7 @@ function CheckOut() {
   return(
    <div>
       {cart.map(item=>(
-          <div className='flex space-x-4 mt-2'>
+          <div key={item.id} className='flex space-x-4 mt-2'>
             <h1>{item.slug}</h1>
           <h1>price: {item.price}</h1>  
           <h1>quantity: {item.quantity}</h1>

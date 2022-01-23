@@ -1,4 +1,4 @@
-import {
+    import {
      ADD_TO_CART, ITEM_LENGTH, ORDER, REMOVE_FROM_CART, SELECT_TOTAL
  } from "../actions/types";
 
