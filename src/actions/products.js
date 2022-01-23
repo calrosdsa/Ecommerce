@@ -4,7 +4,7 @@ import { ADD_TO_CART, GET_PRODUCTS, ITEM_LENGTH, POST_ERROR, QUANTITY, REMOVE_FR
 
 export const get_products = ()=>async (dispatch)=>{
 
-        const res = await axios.get('http://127.0.0.1:8000/store/')
+        const res = await axios.get('https://store-app-1.herokuapp.com/store/')
         dispatch({
             type : GET_PRODUCTS,
             payload: res.data,
