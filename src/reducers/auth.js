@@ -7,19 +7,30 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
+  GET_LOCATION,
 } from '../actions/types';
+
+const user = JSON.parse(localStorage.getItem('user'))
+const userLocation = JSON.parse(localStorage.getItem('userLocation'))
+
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null,
+  user: user? user: {},
+  userLocation: userLocation? userLocation:{}
 };
 
 export default function foo(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_LOCATION:
+      return{
+        ...state,
+        userLocation: payload,
+      }
     case USER_LOADED:
       return {
         ...state,

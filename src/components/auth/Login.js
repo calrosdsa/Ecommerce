@@ -35,9 +35,9 @@ const Login = ({ login, isAuthenticated }) => {
     e.preventDefault();
     login(email, password); // action to reducer
   };
-
-  if (isAuthenticated) {
-    <Navigate to='/' />;
+  const token = localStorage.getItem('token')
+  if (token) {
+    window.history.back();
   }
 
   return (

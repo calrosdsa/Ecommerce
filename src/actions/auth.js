@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
+  GET_LOCATION,
   
 } from './types';
 import { setAlert } from './alert';
@@ -15,7 +16,18 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 
 // Register User
-export const loadUser = () => async (dispatch) => {
+export const get_location = (latitude,longitude) => async (dispatch,getState)=>{
+
+  const res = await axios.post('http://localhost:8000/store/address/',{latitude,longitude})
+  console.log(res.data)
+  dispatch({
+    type: GET_LOCATION,
+    payload:res.data,
+  })
+  localStorage.setItem('userLocation' , JSON.stringify(getState().auth.userLocation))
+}
+
+export const loadUser = () => async (dispatch,getState) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token); // for global axios request header
   } // if there is a token in the local storage then set it setAuthToken function to set in every request
@@ -26,7 +38,7 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data,
     });
-
+  localStorage.setItem('user', JSON.stringify(getState().auth.user))
 };
 
 
@@ -50,6 +62,9 @@ export const register =
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
+      setTimeout(() => {
+        dispatch(loadUser());
+      }, 500);
   //    setTimeout(() => {
     //    dispatch(loadUser());
       //}, 500);
@@ -77,13 +92,8 @@ export const register =
 // Login User
 
 
-export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
+export const login = (email, password) => async (dispatch,history) => {
+  
   const body = JSON.stringify();
   //We use axios to send a post request to /api/users to register.
   //The register action takes in the response from the '/api/users' backend using the post method and store it in the res variable
@@ -94,6 +104,10 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    setTimeout(() => {
+      dispatch(loadUser());
+    }, 500);
+    history.push('/')
   } catch (err) {
     const errors = err.response.data.errors;
     dispatch(
